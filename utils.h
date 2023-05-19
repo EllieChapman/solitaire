@@ -9,4 +9,6 @@ typedef std::tuple<space,space,space> move;
 
 void print_move(move m);
 
+space rotate_point(space s);
+
 #endif

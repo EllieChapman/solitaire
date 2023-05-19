@@ -5,6 +5,7 @@
 #include <tuple>
 #include <list>
 #include "utils.h"
+#include <set>
 
 
 class State
@@ -12,8 +13,8 @@ class State
     public:
         State();
 
-        std::vector<space> marbles;
-        std::vector<space> empty_spaces;
+        std::set<space> marbles;
+        std::set<space> empty_spaces;
 
         // Updates full and empty spaces, throws exception if not valid
         void apply_move(move m);

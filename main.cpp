@@ -7,13 +7,34 @@ std::list<move> moves_done;
 
 // When create state from applying move, check if already been here
 // If not, when have done all moves for the state add to list of seen states and update num_seen_states
-std::set <std::vector<std::tuple<int,int>>> seen_states;
+std::set <std::set<std::tuple<int,int>>> seen_states;
 int num_seen_states = 0;
 
-void add_rotations(std::vector<space> marbles)
-{
-    // EBC
-}
+// void add_rotations(std::vector<space> marbles)
+// {
+//     // 3 times, rotate 90 degrees aroutn 4,4, then add to seen states
+//     // EBC make this better when class holds as a state anyway
+//     std::vector<space> rotated_marbles {};
+//     for (unsigned int i = 0; i < marbles.size(); i++)
+//     {
+//         rotated_marbles.push_back(rotate_point(marbles[i]));
+//     }
+//     seen_states.insert(rotated_marbles);
+
+//     std::vector<space> rotated_marbles2 {};
+//     for (unsigned int i = 0; i < rotated_marbles.size(); i++)
+//     {
+//         rotated_marbles.push_back(rotate_point(rotated_marbles[i]));
+//     }
+//     seen_states.insert(rotated_marbles2);
+
+//     std::vector<space> rotated_marbles3 {};
+//     for (unsigned int i = 0; i < rotated_marbles2.size(); i++)
+//     {
+//         rotated_marbles.push_back(rotate_point(rotated_marbles2[i]));
+//     }
+//     seen_states.insert(rotated_marbles3);
+// }
 
 int do_move(State s, move m)
 {
@@ -27,8 +48,8 @@ int do_move(State s, move m)
     }
     else
     {
-        add_rotations(s.marbles);
-        num_seen_states +=1; // EBC 4
+        // add_rotations(s.marbles);
+        num_seen_states +=1; // EBC 4 with rotations
         
     }
     // if not, recurse
@@ -49,8 +70,8 @@ int do_move(State s, move m)
     if (s.marbles.size() == 1)
     {
         // EBC also store off winning thing here?
-        // std::cout << "Found a solution!\n";
-        // std::cout << "Solution moves:\n";
+        std::cout << "Found a solution!\n";
+        std::cout << "Solution moves:\n";
         for (auto move : moves_done)
         {
             print_move(move);

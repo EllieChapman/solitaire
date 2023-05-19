@@ -4,22 +4,23 @@
 
 State::State()
 {
-    empty_spaces.push_back(std::make_tuple(4,4));
-    marbles = std::vector<space> {
+    empty_spaces.insert(std::make_tuple(4,4));
+    marbles = std::set<space> {
         // std::make_tuple(6,4),
         // std::make_tuple(5,4),
         // std::make_tuple(3,4),
         // EBC extend later
         //
-        // std::make_tuple(3,1),
-        // std::make_tuple(4,1),
-        // std::make_tuple(5,1),
-        // std::make_tuple(3,2),
-        // std::make_tuple(4,2),
+        std::make_tuple(3,1),
+        std::make_tuple(4,1),
+        std::make_tuple(5,1),
+        std::make_tuple(3,2),
+        std::make_tuple(4,2),
         std::make_tuple(5,2),
         std::make_tuple(1,3),
         std::make_tuple(2,3),
         std::make_tuple(3,3),
+        std::make_tuple(4,3),
         std::make_tuple(5,3),
         std::make_tuple(6,3),
         std::make_tuple(7,3),
@@ -32,13 +33,14 @@ State::State()
         std::make_tuple(1,5),
         std::make_tuple(2,5),
         std::make_tuple(3,5),
-        std::make_tuple(5,5),
-        std::make_tuple(6,5),
-        std::make_tuple(7,5),
-        std::make_tuple(3,6),
-        std::make_tuple(4,6),
+        std::make_tuple(4,5),
         //
-        std::make_tuple(5,6),
+        std::make_tuple(5,5),
+        // std::make_tuple(6,5),
+        // std::make_tuple(7,5),
+        // std::make_tuple(3,6),
+        // std::make_tuple(4,6),
+        // std::make_tuple(5,6),
         // std::make_tuple(3,7),
         // std::make_tuple(4,7),
         // std::make_tuple(5,7),
@@ -54,24 +56,38 @@ void State::apply_move(move m)
     // move hopping and hopped from full to empty
     // std::cout << "Applying move: "; // EBC good for debugging
     // print_move(m); // EBC good for debugging
-    for (long unsigned int i = marbles.size(); i > 0; i--)
+    // for (long unsigned int i = marbles.size(); i > 0; i--)
+    std::list<space> to_erase {};
+    for (auto marble : marbles)
     {
-        space marble = marbles[i-1];
+        // space marble = marbles[i-1];
         if (marble == hopping || marble == hopped)
         {
-            marbles.erase(marbles.begin() + i-1);
-            empty_spaces.push_back(marble);
+            // marbles.erase(marble);
+            to_erase.push_back(marble);
+            empty_spaces.insert(marble);
         }
     }
-    // move landing to from empty to full
-    for (long unsigned int i = empty_spaces.size(); i > 0; i--)
+    for (auto marble : to_erase)
     {
-        space space = empty_spaces[i-1];
+        marbles.erase(marble);
+    }
+    // move landing to from empty to full
+    // for (long unsigned int i = empty_spaces.size(); i > 0; i--)
+    std::list<space> space_to_erase {};
+    for (auto space : empty_spaces)
+    {
+        // space space = empty_spaces[i-1];
         if (space == landing)
         {
-            empty_spaces.erase(empty_spaces.begin() + i-1);
-            marbles.push_back(space);
+            // empty_spaces.erase(space);
+            space_to_erase.push_back(space);
+            marbles.insert(space);
         }
+    }
+    for (auto space : space_to_erase)
+    {
+        empty_spaces.erase(space);
     }
 }
 
@@ -82,12 +98,14 @@ std::list<move> State::generate_valid_moves()
     std::list<move> valid_moves;
     std::vector<std::tuple<space,space>> adjacent_marbles;
 
-    for (long unsigned int i = 0; i < marbles.size(); i++)
+    // for (long unsigned int i = 0; i < marbles.size(); i++)
+    for (space marble : marbles)
     {
-        space marble = marbles[i];
-        for (long unsigned int j = i+1; j < marbles.size(); j++)
+        // space marble = marbles[i];
+        // for (long unsigned int j = i+1; j < marbles.size(); j++)
+        for (space other_marble : marbles)
         {
-            space other_marble = marbles[j];
+            // space other_marble = marbles[j];
             if (are_adjacent(marble, other_marble))
             {
                 adjacent_marbles.push_back(std::make_tuple(marble,other_marble));
@@ -101,9 +119,10 @@ std::list<move> State::generate_valid_moves()
         space m2 = std::get<1>(adjacent_marbles[i]);
         space potential1 = find_landing(m1, m2);
         space potential2 = find_landing(m2, m1);
-        for (long unsigned int j = 0; j < empty_spaces.size(); j++)
+        // for (long unsigned int j = 0; j < empty_spaces.size(); j++)
+        for (space landing : empty_spaces)
         {
-            space landing = empty_spaces[j];
+            // space landing = empty_spaces[j];
             if (potential1 == landing)
             {
                 valid_moves.push_back(std::make_tuple(m1, m2, landing));
@@ -158,16 +177,18 @@ bool State::are_adjacent(space marble, space other_marble)
 void State::print_state()
 {
     std::cout << "Current state of board" << std::endl;
-    long unsigned int no_marbles = marbles.size();
-    for (long unsigned int i = 0; i < no_marbles; i++)
+    // long unsigned int no_marbles = marbles.size();
+    // for (long unsigned int i = 0; i < no_marbles; i++)
+    for (space marble : marbles)
     {
-        space marble = marbles[i];
-        std::cout << "Marble " << i << ": " << std::get<0>(marble) << ", " << std::get<1>(marble) << std::endl;
+        // space marble = marbles[i];
+        std::cout << "Marble: " << std::get<0>(marble) << ", " << std::get<1>(marble) << std::endl;
     }
-    long unsigned int no_spaces = empty_spaces.size();
-    for (long unsigned int i = 0; i < no_spaces; i++)
+    // long unsigned int no_spaces = empty_spaces.size();
+    // for (long unsigned int i = 0; i < no_spaces; i++)
+    for (space space : empty_spaces)
     {
-        space space = empty_spaces[i];
-        std::cout << "Space " << i << ": " << std::get<0>(space) << ", " << std::get<1>(space) << std::endl;
+        // space space = empty_spaces[i];
+        std::cout << "Space: " << std::get<0>(space) << ", " << std::get<1>(space) << std::endl;
     }
 }
