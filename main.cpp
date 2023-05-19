@@ -1,13 +1,37 @@
 #include <iostream>
 #include "state.h"
 #include "utils.h"
-
+#include <set>
 
 std::list<move> moves_done;
+
+// When create state from applying move, check if already been here
+// If not, when have done all moves for the state add to list of seen states and update num_seen_states
+std::set <std::vector<std::tuple<int,int>>> seen_states;
+int num_seen_states = 0;
+
+void add_rotations(std::vector<space> marbles)
+{
+    // EBC
+}
 
 int do_move(State s, move m)
 {
     s.apply_move(m);
+    // check if state has been seen before
+    seen_states.insert(s.marbles);
+    int size = seen_states.size();
+    if (num_seen_states == size)
+    {
+        return 1;
+    }
+    else
+    {
+        add_rotations(s.marbles);
+        num_seen_states +=1; // EBC 4
+        
+    }
+    // if not, recurse
     moves_done.push_back(m);
     std::list<move> moves = s.generate_valid_moves();
     while (moves.size() > 0)
@@ -25,8 +49,8 @@ int do_move(State s, move m)
     if (s.marbles.size() == 1)
     {
         // EBC also store off winning thing here?
-        std::cout << "Found a solution!\n";
-        std::cout << "Solution moves:\n";
+        // std::cout << "Found a solution!\n";
+        // std::cout << "Solution moves:\n";
         for (auto move : moves_done)
         {
             print_move(move);

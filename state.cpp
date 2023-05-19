@@ -6,16 +6,16 @@ State::State()
 {
     empty_spaces.push_back(std::make_tuple(4,4));
     marbles = std::vector<space> {
-        // std::make_tuple(2,4),
-        // std::make_tuple(3,4),
-        // std::make_tuple(5,4),
         // std::make_tuple(6,4),
+        // std::make_tuple(5,4),
+        // std::make_tuple(3,4),
         // EBC extend later
-        std::make_tuple(3,1),
-        std::make_tuple(4,1),
-        std::make_tuple(5,1),
-        std::make_tuple(3,2),
-        std::make_tuple(4,2),
+        //
+        // std::make_tuple(3,1),
+        // std::make_tuple(4,1),
+        // std::make_tuple(5,1),
+        // std::make_tuple(3,2),
+        // std::make_tuple(4,2),
         std::make_tuple(5,2),
         std::make_tuple(1,3),
         std::make_tuple(2,3),
@@ -37,10 +37,11 @@ State::State()
         std::make_tuple(7,5),
         std::make_tuple(3,6),
         std::make_tuple(4,6),
+        //
         std::make_tuple(5,6),
-        std::make_tuple(3,7),
-        std::make_tuple(4,7),
-        std::make_tuple(5,7),
+        // std::make_tuple(3,7),
+        // std::make_tuple(4,7),
+        // std::make_tuple(5,7),
     };
 }
 
