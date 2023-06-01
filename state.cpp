@@ -35,15 +35,15 @@ State::State()
         std::make_tuple(3,5),
         std::make_tuple(4,5),
         //
-        std::make_tuple(5,5),
-        // std::make_tuple(6,5),
-        // std::make_tuple(7,5),
-        // std::make_tuple(3,6),
-        // std::make_tuple(4,6),
-        // std::make_tuple(5,6),
-        // std::make_tuple(3,7),
-        // std::make_tuple(4,7),
-        // std::make_tuple(5,7),
+        std::make_tuple(5,5), // ebc this one takes 2.20
+        std::make_tuple(6,5),
+        std::make_tuple(7,5),
+        std::make_tuple(3,6),
+        std::make_tuple(4,6),
+        std::make_tuple(5,6),
+        std::make_tuple(3,7),
+        std::make_tuple(4,7),
+        std::make_tuple(5,7),
     };
 }
 
@@ -118,7 +118,7 @@ std::list<move> State::generate_valid_moves()
         space m1 = std::get<0>(adjacent_marbles[i]);
         space m2 = std::get<1>(adjacent_marbles[i]);
         space potential1 = find_landing(m1, m2);
-        space potential2 = find_landing(m2, m1);
+        // space potential2 = find_landing(m2, m1);
         // for (long unsigned int j = 0; j < empty_spaces.size(); j++)
         for (space landing : empty_spaces)
         {
@@ -127,10 +127,10 @@ std::list<move> State::generate_valid_moves()
             {
                 valid_moves.push_back(std::make_tuple(m1, m2, landing));
             }
-            else if (potential2 == landing)
-            {
-                valid_moves.push_back(std::make_tuple(m2, m1, landing));
-            }
+            // else if (potential2 == landing)
+            // {
+            //     valid_moves.push_back(std::make_tuple(m2, m1, landing));
+            // }
         }
     }
     return valid_moves;

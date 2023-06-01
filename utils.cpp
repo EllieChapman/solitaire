@@ -12,3 +12,8 @@ space rotate_point(space s)
 {
     return std::make_tuple(8-std::get<1>(s), std::get<0>(s));
 }
+
+space reflect_point(space s)
+{
+    return std::make_tuple(8-std::get<0>(s), std::get<1>(s));
+}

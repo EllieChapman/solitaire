@@ -11,4 +11,6 @@ void print_move(move m);
 
 space rotate_point(space s);
 
+space reflect_point(space s);
+
 #endif
