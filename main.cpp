@@ -7,68 +7,9 @@ std::list<move> moves_done;
 
 // When create state from applying move, check if already been here
 // If not, when have done all moves for the state add to list of seen states and update num_seen_states
-std::set <std::set<std::tuple<int,int>>> seen_states;
+std::set <std::set<int>> seen_states;
 int num_seen_states = 0;
 
-void add_rotations_and_reflections(std::set<space> marbles)
-{
-    // 3 times, rotate 90 degrees aroutn 4,4, then add to seen states
-    // EBC make this better when class holds as a state anyway
-
-    // Initial reflection
-    std::set<space> initial_reflected_marbles {};
-    for (auto marble : marbles)
-    {
-        initial_reflected_marbles.insert(reflect_point(marble));
-    }
-    seen_states.insert(initial_reflected_marbles);
-
-    // 1st rotation and reflection
-    std::set<space> rotated_marbles {};
-    for (auto marble : marbles)
-    {
-        rotated_marbles.insert(rotate_point(marble));
-    }
-    seen_states.insert(rotated_marbles);
-
-    std::set<space> reflected_marbles {};
-    for (auto marble : rotated_marbles)
-    {
-        reflected_marbles.insert(reflect_point(marble));
-    }
-    seen_states.insert(reflected_marbles);
-
-    // 2nd rotation and reflecction
-    std::set<space> rotated_marbles2 {};
-    for (auto marble : rotated_marbles)
-    {
-        rotated_marbles2.insert(rotate_point(marble));
-    }
-    seen_states.insert(rotated_marbles2);
-
-    std::set<space> reflected_marbles2 {};
-    for (auto marble : rotated_marbles2)
-    {
-        reflected_marbles2.insert(reflect_point(marble));
-    }
-    seen_states.insert(reflected_marbles2);
-
-    // 3nd rotation and reflecction
-    std::set<space> rotated_marbles3 {};
-    for (auto marble : rotated_marbles2)
-    {
-        rotated_marbles3.insert(rotate_point(marble));
-    }
-    seen_states.insert(rotated_marbles3);
-
-    std::set<space> reflected_marbles3 {};
-    for (auto marble : rotated_marbles3)
-    {
-        reflected_marbles3.insert(reflect_point(marble));
-    }
-    seen_states.insert(reflected_marbles3);
-
-}
 
 int do_move(State s, move m)
 {
@@ -82,11 +23,12 @@ int do_move(State s, move m)
     }
     else
     {
-        // add_rotations_and_reflections(s.marbles);
-        num_seen_states = size; // EBC no guarentee to be 8
+        num_seen_states = size;
         
     }
     // if not, recurse
+    //  print_move(m);
+    // s.print_state();
     moves_done.push_back(m);
     std::list<move> moves = s.generate_valid_moves();
     while (moves.size() > 0)

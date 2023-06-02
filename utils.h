@@ -4,13 +4,8 @@
 #include <tuple>
 #include <iostream>
 
-typedef std::tuple<int,int> space;
-typedef std::tuple<space,space,space> move;
+typedef std::tuple<int,int,int> move;
 
 void print_move(move m);
-
-space rotate_point(space s);
-
-space reflect_point(space s);
 
 #endif

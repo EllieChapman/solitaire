@@ -7,14 +7,13 @@
 #include "utils.h"
 #include <set>
 
-
 class State
 {
     public:
         State();
 
-        std::set<space> marbles;
-        std::set<space> empty_spaces;
+        std::set<int> marbles;
+        // std::set<int> empty_spaces;
 
         // Updates full and empty spaces, throws exception if not valid
         void apply_move(move m);
@@ -23,9 +22,8 @@ class State
 
         void print_state();
 
-        bool are_adjacent(space s1, space s2);
-
-        space find_landing(space hopping, space hopped);
+        std::list<move> all_moves;
 };
+
 
 #endif
